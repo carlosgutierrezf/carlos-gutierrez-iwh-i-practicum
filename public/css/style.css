@@ -2,12 +2,15 @@
 
 body, * {
     font-family: 'Roboto', sans-serif;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
+    max-width: 1366px;
 }
 
 h1 {
     margin: 1rem;
+    margin-top: 30px;
+    margin-bottom: 40px;
 }
 
 .cards {
@@ -32,8 +35,8 @@ h1 {
 
 .form-wrapper {
     font-size: 18px;
-    max-width: 768px;
-    margin: 2rem auto;
+    max-width: 1068px;
+    margin: 20px;
     padding: 2rem;
     border: solid 1px lightgrey;
     border-radius: 15px;
@@ -41,18 +44,52 @@ h1 {
 }
 
 label, input {
-    margin-top: 5px;
     display: block;
     font-size: inherit;
+    margin: 5px 0px;
 }
 
 input[type="text"] {
     padding: .25rem;
 }
 
-input[type="submit"] {
+input[type="submit"] ,
+button {
     background-color: lightgrey;
     border: none;
-    padding: .375rem 1rem;
+    padding: 10px 16px;
     margin-top: 10px;
+    font-size: 19px;
+}
+
+a {
+    font-size: 20px;
+    color:blue;
+    margin: 20px;
+}
+p{
+    font-size: 18px;
+    margin: 20px;
+}
+
+table {
+    text-align: left;
+    width: 100%;
+    margin: 40px 20px;
+    border-collapse: collapse;
+}
+table tr th,
+table tr td {
+    text-align: left;
+    padding: 30px;
+}
+table tr th {
+    font-size: 24px;
+    border: 1px solid #000;
+    background-color: thistle;
+}
+table tr td {
+    font-size: 18px;
+    border: 1px solid #000;
+    background-color: beige;
 }

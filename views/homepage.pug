@@ -6,8 +6,18 @@ html
         link(rel="stylesheet", href="/css/style.css")
     body    
         h1 Custom Object Table
-        .cards 
+        a(href="/updates") Add/update this table
+
+
+        table
+            thead
+                tr
+                    th Name
+                    th Location
+                    th Scientific Name
+            tbody
             each plant in data
-                .card 
-                    h2.card__name #{plant.properties.plant_location}  #{plant.properties.plant_name}
-                    p.card__email #{plant.properties.plant_scientific_same}
+                tr
+                    td= plant.properties.plant_name
+                    td= plant.properties.plant_location
+                    td= plant.properties.plant_scientific_same

@@ -11,13 +11,13 @@ app.use(express.json());
 const PRIVATE_APP_ACCESS = 'pat-na1-2bbf146e-d713-4c9f-b50f-f9ae2eabf358';
 
 async function getPlants(){
-    const contacts = 'https://api.hubspot.com/crm/v3/objects/2-30934919';
+    const plants = 'https://api.hubspot.com/crm/v3/objects/2-30934919';
         const headers = {
             Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
             'Content-Type': 'application/json'
         }
         try {
-            const resp = await axios.get(contacts, { headers });
+            const resp = await axios.get(plants, { headers });
             const data = resp.data.results;
             const inputs = [];
             Object.keys(data).forEach(key => {
@@ -29,6 +29,30 @@ async function getPlants(){
             return inputs;  
         } catch (error) {
             console.error(error);
+        }
+}
+
+async function createPlant(plantName, plantLocation, scientificName, res){
+    const updatePlant = 'https://api.hubspot.com/crm/v3/objects/plant';
+        const headers = {
+            Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+            'Content-Type': 'application/json'
+        }
+        const dataUpdate = {
+            "properties": {
+                "plant_location" : `${plantLocation}`,
+                "plant_scientific_same" : `${scientificName}`,
+                "plant_name" : `${plantName}`
+            }
+        }
+        try {
+            const resp = await axios.post(updatePlant, dataUpdate, { headers });
+            const data = resp.data;
+            res.render('updates', { apiSuccess: true });
+
+        } catch (error) {
+            console.error(error);
+            res.render('updates', { apiSuccess: false });
         }
 }
 
@@ -60,6 +84,7 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/updates', async (req, res) => {
+    
     const plants = 'https://api.hubspot.com/crm/v3/objects/plant/batch/read';
     const headers = {
         Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
@@ -79,6 +104,7 @@ app.get('/updates', async (req, res) => {
         const resp = await axios.post(plants, postData, { headers  });
         const data = resp.data.results;
         res.render('updates', { title: 'Custom Object Table', data });  
+        
         console.log("data is --->", data)    
     } catch (error) {
         console.error(error);
@@ -86,9 +112,10 @@ app.get('/updates', async (req, res) => {
 });
 
 app.post('/submit', (req, res) => {
-    const { plantname } = req.body;
+    const { plantname, plantlocation, scientificname } = req.body;
     // Aquí puedes manejar los datos del formulario, por ejemplo, guardarlos en una base de datos
     console.log("plantname: ", plantname)
+    createPlant(plantname, plantlocation, scientificname, res)
 });
 
 // * Please DO NOT INCLUDE the private app access token in your repo. Don't do this practicum in your normal account.
