@@ -113,7 +113,6 @@ app.get('/updates', async (req, res) => {
 
 app.post('/submit', (req, res) => {
     const { plantname, plantlocation, scientificname } = req.body;
-    // Aquí puedes manejar los datos del formulario, por ejemplo, guardarlos en una base de datos
     console.log("plantname: ", plantname)
     createPlant(plantname, plantlocation, scientificname, res)
 });
