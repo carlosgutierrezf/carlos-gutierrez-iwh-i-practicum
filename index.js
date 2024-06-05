@@ -8,10 +8,60 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 
+const PRIVATE_APP_ACCESS = 'pat-na1-2bbf146e-d713-4c9f-b50f-f9ae2eabf358';
 
+app.get('/contacts', async (req, res) => {
+    const contacts = 'https://api.hubspot.com/crm/v3/objects/contacts';
+    const headers = {
+        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+        'Content-Type': 'application/json'
+    }
+    try {
+        const resp = await axios.get(contacts, { headers });
+        const data = resp.data.results;
+        res.render('contacts', { title: 'Contacts | HubSpot APIs', data });  
+        console.log("data is --->", data)    
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+app.get('/plants', async (req, res) => {
+    const plants = 'https://api.hubspot.com/crm/v3/objects/plant/batch/read';
+    const headers = {
+        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+        'Content-Type': 'application/json'
+    };
+    const postData = {
+        "inputs": [
+            {
+                "id": "13537103132"
+            },
+            {
+                "id": "13535592062"
+            },
+            {
+                "id": "13533989246"
+            },
+        ],
+        "properties": [
+            "plant_location",
+            "plant_scientific_same",
+            "plant_name"
+        ]
+      };
+    try {
+        const resp = await axios.post(plants, postData, { headers  });
+        const data = resp.data.results;
+        res.render('plants', { title: 'Contacts | HubSpot APIs', data });  
+        console.log("data is --->", data)    
+    } catch (error) {
+        console.error(error);
+    }
+});
 
 // * Please DO NOT INCLUDE the private app access token in your repo. Don't do this practicum in your normal account.
-const PRIVATE_APP_ACCESS = '';
+
 
 // TODO: ROUTE 1 - Create a new app.get route for the homepage to call your custom object data. Pass this data along to the front-end and create a new pug template in the views folder.
 

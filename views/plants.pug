@@ -5,9 +5,9 @@ html
         meta(name="viewport" content="width=device-width, initial-scale=1")
         link(rel="stylesheet", href="/css/style.css")
     body    
-        h1 Contacts
+        h1 Plants
         .cards 
-            each contact in data
+            each plant in data
                 .card 
-                    h2.card__name #{contact.properties.firstname}  #{contact.properties.lastname}
-                    p.card__email #{contact.properties.email}
+                    h2.card__name #{plant.properties.plant_location}  #{plant.properties.plant_name}
+                    p.card__email #{plant.properties.plant_scientific_same}
