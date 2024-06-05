@@ -10,23 +10,8 @@ app.use(express.json());
 
 const PRIVATE_APP_ACCESS = 'pat-na1-2bbf146e-d713-4c9f-b50f-f9ae2eabf358';
 
-app.get('/contacts', async (req, res) => {
-    const contacts = 'https://api.hubspot.com/crm/v3/objects/contacts';
-    const headers = {
-        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
-        'Content-Type': 'application/json'
-    }
-    try {
-        const resp = await axios.get(contacts, { headers });
-        const data = resp.data.results;
-        res.render('contacts', { title: 'Contacts | HubSpot APIs', data });  
-        console.log("data is --->", data)    
-    } catch (error) {
-        console.error(error);
-    }
-});
 
-app.get('/plants', async (req, res) => {
+app.get('/', async (req, res) => {
     const plants = 'https://api.hubspot.com/crm/v3/objects/plant/batch/read';
     const headers = {
         Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
@@ -53,7 +38,7 @@ app.get('/plants', async (req, res) => {
     try {
         const resp = await axios.post(plants, postData, { headers  });
         const data = resp.data.results;
-        res.render('plants', { title: 'Contacts | HubSpot APIs', data });  
+        res.render('plants', { title: 'Custom Object Table', data });  
         console.log("data is --->", data)    
     } catch (error) {
         console.error(error);
