@@ -10,6 +10,30 @@ app.use(express.json());
 
 const PRIVATE_APP_ACCESS = 'pat-na1-2bbf146e-d713-4c9f-b50f-f9ae2eabf358';
 
+async function getPlants(){
+    const contacts = 'https://api.hubspot.com/crm/v3/objects/2-30934919';
+        const headers = {
+            Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+            'Content-Type': 'application/json'
+        }
+        try {
+            const resp = await axios.get(contacts, { headers });
+            const data = resp.data.results;
+            const inputs = [];
+            Object.keys(data).forEach(key => {
+                const newObject = {
+                    "id" : `${data[key].id}`
+                }
+                inputs.push(newObject);
+            });
+            return inputs
+            //res.render('contacts', { title: 'Contacts | HubSpot APIs', data });      
+        } catch (error) {
+            console.error(error);
+        }
+}
+
+
 
 app.get('/', async (req, res) => {
     const plants = 'https://api.hubspot.com/crm/v3/objects/plant/batch/read';
@@ -17,18 +41,10 @@ app.get('/', async (req, res) => {
         Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
         'Content-Type': 'application/json'
     };
+    const inputs = await getPlants()
+    
     const postData = {
-        "inputs": [
-            {
-                "id": "13537103132"
-            },
-            {
-                "id": "13535592062"
-            },
-            {
-                "id": "13533989246"
-            },
-        ],
+        "inputs": inputs,
         "properties": [
             "plant_location",
             "plant_scientific_same",
