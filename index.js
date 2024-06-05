@@ -23,16 +23,14 @@ async function getPlants(){
             Object.keys(data).forEach(key => {
                 const newObject = {
                     "id" : `${data[key].id}`
-                }
+                };
                 inputs.push(newObject);
             });
-            return inputs
-            //res.render('contacts', { title: 'Contacts | HubSpot APIs', data });      
+            return inputs;  
         } catch (error) {
             console.error(error);
         }
 }
-
 
 
 app.get('/', async (req, res) => {
@@ -54,11 +52,43 @@ app.get('/', async (req, res) => {
     try {
         const resp = await axios.post(plants, postData, { headers  });
         const data = resp.data.results;
-        res.render('plants', { title: 'Custom Object Table', data });  
+        res.render('homepage', { title: 'Custom Object Table', data });  
         console.log("data is --->", data)    
     } catch (error) {
         console.error(error);
     }
+});
+
+app.get('/updates', async (req, res) => {
+    const plants = 'https://api.hubspot.com/crm/v3/objects/plant/batch/read';
+    const headers = {
+        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+        'Content-Type': 'application/json'
+    };
+    const inputs = await getPlants()
+    
+    const postData = {
+        "inputs": inputs,
+        "properties": [
+            "plant_location",
+            "plant_scientific_same",
+            "plant_name"
+        ]
+      };
+    try {
+        const resp = await axios.post(plants, postData, { headers  });
+        const data = resp.data.results;
+        res.render('updates', { title: 'Custom Object Table', data });  
+        console.log("data is --->", data)    
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+app.post('/submit', (req, res) => {
+    const { plantname } = req.body;
+    // Aquí puedes manejar los datos del formulario, por ejemplo, guardarlos en una base de datos
+    console.log("plantname: ", plantname)
 });
 
 // * Please DO NOT INCLUDE the private app access token in your repo. Don't do this practicum in your normal account.

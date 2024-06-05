@@ -1,0 +1,24 @@
+doctype html
+html 
+    head 
+        title= `${title}`
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+        link(rel="stylesheet", href="/css/style.css")
+    body    
+        h1 Update Custom Object Form | Integrating With HubSpot I Practicum.
+        
+        form(action="/submit" method="post")
+            div
+                label(for="plant_name") New Plant Name:
+                input(type="text" id="plantname" name="plantname" required)
+
+            div
+                label(for="plant_location") Plant Location:
+                input(type="text" id="plantlocation" name="plantlocation" required)
+
+            div
+                label(for="plant_scientific_same") Plant Scientific Name:
+                input(type="text" id="scientificname" name="scientificname" required)
+
+            div
+                button(type="submit") Update
